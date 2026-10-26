@@ -1,0 +1,176 @@
+ 
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de usuario · Taller</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+  <main>
+    <h1>Crear cuenta</h1>
+
+    <p>
+      Completa los datos para registrarte.
+      Todos los campos principales son obligatorios.
+    </p>
+
+    <form
+      id="registro"
+      action="https://jsonplaceholder.typicode.com/posts"
+      method="post"
+      novalidate
+    >
+
+      <div class="campo">
+        <label for="nombre">Nombre completo</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          required
+          minlength="3"
+          maxlength="60"
+          autocomplete="name"
+          aria-describedby="nombre-error"
+        >
+        <p class="error" id="nombre-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label for="email">Correo electrónico</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          aria-describedby="email-error"
+        >
+        <p class="error" id="email-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minlength="8"
+          maxlength="64"
+          pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
+          autocomplete="new-password"
+          aria-describedby="password-error"
+        >
+        <p class="error" id="password-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label for="confirmar">Confirmar contraseña</label>
+        <input
+          id="confirmar"
+          name="confirmar"
+          type="password"
+          required
+          autocomplete="new-password"
+          aria-describedby="confirmar-error"
+        >
+        <p class="error" id="confirmar-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label for="edad">Edad</label>
+        <input
+          id="edad"
+          name="edad"
+          type="number"
+          required
+          min="18"
+          max="120"
+          step="1"
+          aria-describedby="edad-error"
+        >
+        <p class="error" id="edad-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label for="pais">País</label>
+        <select
+          id="pais"
+          name="pais"
+          required
+          aria-describedby="pais-error"
+        >
+          <option value="">Elige un país</option>
+          <option value="Colombia">Colombia</option>
+          <option value="México">México</option>
+          <option value="Perú">Perú</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <p class="error" id="pais-error" aria-live="polite"></p>
+      </div>
+
+      <div class="campo">
+        <label class="casilla" for="terminos">
+          <input
+            id="terminos"
+            name="terminos"
+            type="checkbox"
+            required
+            aria-describedby="terminos-error"
+          >
+          Acepto los términos y condiciones
+        </label>
+        <p class="error" id="terminos-error" aria-live="polite"></p>
+      </div>
+
+      <section aria-labelledby="titulo-telefonos">
+        <h2 id="titulo-telefonos">Teléfonos opcionales</h2>
+
+        <div id="telefonos"></div>
+
+        <button
+          type="button"
+          id="agregar-telefono"
+          class="secundario"
+        >
+          Agregar teléfono
+        </button>
+
+        <p class="ayuda">
+          Hasta tres teléfonos, de 7 a 15 dígitos
+          (puedes iniciar con +).
+        </p>
+      </section>
+
+      <button type="submit" id="enviar">
+        Crear cuenta
+      </button>
+
+      <p id="mensaje" role="status" aria-live="polite"></p>
+      <p id="saludo" role="status"></p>
+    </form>
+
+    <p class="ayuda">
+      Demostración: JSONPlaceholder responde a la solicitud,
+      pero no crea una cuenta real.
+    </p>
+
+    <p>
+      <a href="seguridad.html">
+        Abrir demostraciones de seguridad del nivel 5
+      </a>
+      ·
+      <a href="nativo/index.html">
+        Ver versión de HTML nativo (nivel 1)
+      </a>
+    </p>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

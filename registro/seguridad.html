@@ -1,0 +1,96 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demostraciones de seguridad · Nivel 5</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+  <main>
+    <h1>Seguridad · Nivel 5</h1>
+
+    <p>
+      Estas actividades sirven para comprobar por qué la validación
+      del navegador no sustituye a la del servidor.
+      Utiliza <strong>datos ficticios</strong>.
+    </p>
+
+    <section>
+      <h2>Parte A: solicitud sin formulario</h2>
+
+      <p>
+        El botón envía directamente un JSON con correo inválido
+        y edad negativa a JSONPlaceholder, saltándose cualquier
+        atributo HTML. Es un servicio de pruebas: la respuesta
+        no significa que un backend real acepte esos datos.
+      </p>
+
+      <button type="button" id="prueba-fetch">
+        Enviar datos inválidos por fetch
+      </button>
+
+      <p
+        id="estado-fetch"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+      <pre
+        id="respuesta-fetch"
+        class="resultado"
+        tabindex="0"
+      ></pre>
+    </section>
+
+    <section>
+      <h2>Parte B: diferencia entre innerHTML y textContent</h2>
+
+      <p>
+        Prueba el nombre <code>&lt;b&gt;Ana&lt;/b&gt;</code>.
+        La primera salida interpreta las etiquetas, mientras que
+        la segunda las muestra literalmente.
+
+        Solo se usa esta demostración local con HTML de ejemplo;
+        en la aplicación real se usa <code>textContent</code>.
+      </p>
+
+      <label for="nombre-prueba">Nombre de prueba</label>
+
+      <input
+        id="nombre-prueba"
+        value="&lt;b&gt;Ana&lt;/b&gt;"
+        autocomplete="off"
+      >
+
+      <button type="button" id="probar-xss">
+        Comparar salidas
+      </button>
+
+      <h3>innerHTML (no usar con datos reales)</h3>
+
+      <div
+        id="saludo-html"
+        class="resultado"
+      ></div>
+
+      <h3>textContent (seguro para este uso)</h3>
+
+      <div
+        id="saludo-texto"
+        class="resultado"
+      ></div>
+    </section>
+
+    <p>
+      <a href="index.html">Volver al formulario principal</a>
+      ·
+      <a href="nativo/index.html">Abrir nivel 1</a>
+    </p>
+  </main>
+
+  <script src="seguridad.js" defer></script>
+</body>
+</html>
