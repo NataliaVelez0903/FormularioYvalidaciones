@@ -52,8 +52,10 @@
         <p class="error" id="email-error" aria-live="polite"></p>
       </div>
 
+
       <div class="campo">
         <label for="password">Contraseña</label>
+
         <input
           id="password"
           name="password"
@@ -63,10 +65,17 @@
           maxlength="64"
           pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
           autocomplete="new-password"
-          aria-describedby="password-error"
+          aria-describedby="password-ayuda password-error"
         >
+
+        <p id="password-ayuda" class="ayuda">
+          La contraseña debe tener mínimo 8 caracteres,
+          incluyendo al menos una letra y un número.
+        </p>
+
         <p class="error" id="password-error" aria-live="polite"></p>
       </div>
+
 
       <div class="campo">
         <label for="confirmar">Confirmar contraseña</label>
@@ -81,8 +90,10 @@
         <p class="error" id="confirmar-error" aria-live="polite"></p>
       </div>
 
+      
       <div class="campo">
         <label for="edad">Edad</label>
+
         <input
           id="edad"
           name="edad"
@@ -91,10 +102,16 @@
           min="18"
           max="120"
           step="1"
-          aria-describedby="edad-error"
+          aria-describedby="edad-ayuda edad-error"
         >
+
+        <p id="edad-ayuda" class="ayuda">
+          Debes tener entre 18 y 120 años para registrarte.
+        </p>
+
         <p class="error" id="edad-error" aria-live="polite"></p>
       </div>
+
 
       <div class="campo">
         <label for="pais">País</label>

@@ -44,28 +44,11 @@ registro/
 
 ### Nivel 1. Validación nativa con HTML
 
-En este nivel creamos un formulario que permite validar los datos usando atributos HTML, sin necesidad de JavaScript.
+En este nivel implementamos las validaciones utilizando atributos HTML como `required`, `minlength`, `maxlength`, `pattern`, `min`, `max` y `step`.
 
-Se implementaron siete campos: nombre, correo, contraseña, confirmación de contraseña, edad, país y aceptación de términos.
+Comprobamos que el formulario rechaza correos incorrectos, contraseñas sin números y edades fuera del rango permitido.
 
-Utilizamos atributos como `required`, `minlength`, `maxlength`, `pattern`, `min`, `max` y `step`.
-
-**Pruebas realizadas:**
-
-| Prueba | Resultado |
-|---|---|
-| Enviar formulario vacío | Rechazado correctamente |
-| Correo sin @ | Rechazado correctamente |
-| Contraseña sin números | Rechazada correctamente |
-| Edad 17 | Rechazada |
-| Edad 18 | Aceptada |
-| Edad 120 | Aceptada |
-| Edad 121 | Rechazada |
-| Etiquetas conectadas con sus campos | Correcto |
-| Envío de los siete campos | Correcto |
-| Adaptación a pantalla móvil | Correcto |
-
-La prueba específica del teclado de un celular físico queda pendiente de documentar.
+También verificamos que las etiquetas están relacionadas con sus campos y que el formulario se adapta a pantallas pequeñas.
 
 **Pregunta: ¿Qué ocurre si eliminamos el atributo `name`?**
 
@@ -73,34 +56,25 @@ Cuando eliminamos el atributo `name` de un campo, este sigue apareciendo en el f
 
 Esto ocurre porque `name` permite identificar cada dato en la información enviada al servidor.
 
-**Explicación de la expresión regular de la contraseña:**
+**Explicación de la expresión regular de la contraseña**
 
-```javascript
-(?=.*[A-Za-z])(?=.*\d).{8,}
-```
+Utilizamos la expresión `(?=.*[A-Za-z])(?=.*\d).{8,}`.
 
 - `(?=.*[A-Za-z])`: comprueba que exista al menos una letra.
 - `(?=.*\d)`: comprueba que exista al menos un número.
-- `.{8,}`: exige mínimo ocho caracteres.
+- `.{8,}`: establece un mínimo de ocho caracteres.
 
-Esta validación ayuda a comprobar que las contraseñas cumplan los requisitos establecidos.
+Por ejemplo, la contraseña `abcdefgh` fue rechazada porque no contiene números.
 
 ### Nivel 2. Mensajes de error personalizados
 
-En este nivel mejoramos las validaciones para mostrar mensajes en español debajo de cada campo.
+En este nivel utilizamos JavaScript para mostrar mensajes de error en español debajo de los campos.
 
-También utilizamos atributos de accesibilidad como `aria-describedby`, `aria-invalid` y `aria-live`.
+También implementamos atributos de accesibilidad como `aria-describedby`, `aria-live` y `aria-invalid`.
 
-**Pruebas realizadas:**
+Comprobamos que los errores aparecen cuando salimos de un campo incorrecto y desaparecen después de corregirlo.
 
-| Prueba | Resultado |
-|---|---|
-| Abrir sin mostrar errores | Correcto |
-| Escribir un nombre demasiado corto | Mostró mensaje y borde rojo |
-| Contraseñas diferentes | Mostró error |
-| Corregir la contraseña | El error desapareció |
-| Comparar :invalid y :user-invalid | Correcto |
-| Comprobar mensajes con NVDA | Mensaje anunciado correctamente |
+Además, realizamos una prueba con NVDA y verificamos que el lector de pantalla anunciara el mensaje de error.
 
 **Pregunta: ¿Cuál es la diferencia entre `:invalid` y `:user-invalid`?**
 
@@ -114,25 +88,11 @@ Consideramos que `:user-invalid` es mejor para la experiencia del usuario porque
 
 En este nivel implementamos el envío de información sin recargar la página.
 
-Utilizamos `FormData` para obtener los valores y `fetch` para realizar la petición al servicio de pruebas.
+Utilizamos `FormData` para obtener los valores del formulario y `fetch` para realizar las peticiones.
 
-También agregamos manejo de errores y bloqueamos el botón mientras se procesa el envío.
+Comprobamos que el botón se desactiva mientras se procesa el envío, que los datos se envían como JSON y que se excluye el campo de confirmación de contraseña.
 
-**Pruebas realizadas:**
-
-| Prueba | Resultado |
-|---|---|
-| Enviar formulario válido | Correcto |
-| Mostrar mensaje de éxito | Correcto |
-| Limpiar formulario después del éxito | Correcto |
-| Desactivar botón durante envío | Correcto |
-| Mostrar todos los errores antes del envío | Correcto |
-| Enfocar primer campo inválido | Correcto |
-| Simular ausencia de conexión | Error manejado correctamente |
-| Conservar datos cuando falla el envío | Correcto |
-| Enviar JSON sin confirmar contraseña | Correcto |
-| Manejar URL con error HTTP | Correcto |
-| Enviar presionando Enter | Correcto |
+También simulamos errores de conexión y respuestas HTTP incorrectas. En ambos casos, el formulario mostró un mensaje, conservó los datos y volvió a habilitar el botón.
 
 **Pregunta: ¿Por qué utilizamos `submit` y no `click`?**
 
@@ -144,22 +104,13 @@ Además, utilizamos `preventDefault()` para evitar que la página se recargue au
 
 ### Nivel 4. Validación avanzada con JavaScript
 
-En este nivel organizamos todas las reglas en un módulo llamado `validaciones.js`, con funciones que podemos reutilizar.
+En este nivel organizamos las reglas de validación en un archivo independiente llamado `validaciones.js`.
 
-También implementamos la comprobación asíncrona del correo y la posibilidad de agregar hasta tres teléfonos.
+También implementamos una comprobación asíncrona del correo electrónico, utilizando `debounce` para evitar consultas innecesarias.
 
-**Pruebas realizadas:**
+Finalmente, agregamos campos dinámicos que permiten registrar hasta tres teléfonos.
 
-| Prueba | Resultado |
-|---|---|
-| Correo registrado ana@mail.com | Detectado correctamente |
-| Mensaje de disponibilidad | Correcto |
-| Debounce | Una comprobación al escribir sin pausas |
-| Agregar máximo tres teléfonos | Correcto |
-| Eliminar un teléfono | Correcto |
-| Rechazar teléfono abc | Correcto |
-| Enviar dos teléfonos en arreglo JSON | Correcto |
-| Centralizar reglas en validaciones.js | Correcto |
+Comprobamos que los teléfonos incorrectos muestran un error y que los números válidos se envían dentro de un arreglo JSON.
 
 **Pregunta: ¿Qué ventajas tienen las funciones puras?**
 
@@ -177,7 +128,9 @@ Para comprobar si una cuenta existe necesitamos realizar una consulta al servido
 
 #### Parte A. Seguridad del frontend
 
-Realizamos una petición directamente mediante `fetch`, enviando los siguientes datos:
+En esta parte comprobamos que las validaciones del navegador pueden saltarse enviando peticiones directamente con JavaScript.
+
+Realizamos una solicitud mediante `fetch` con los siguientes datos:
 
 ```json
 {
@@ -186,13 +139,11 @@ Realizamos una petición directamente mediante `fetch`, enviando los siguientes 
 }
 ```
 
-El servicio de pruebas respondió con los datos enviados y un identificador.
+El servicio JSONPlaceholder respondió a la petición y devolvió un identificador, aunque los datos no cumplían las reglas del formulario.
 
-Esto demuestra que es posible saltarse las validaciones del navegador y realizar solicitudes directamente.
+Esto demuestra que no es suficiente validar únicamente desde el frontend. El backend debe volver a comprobar la información antes de guardarla o procesarla.
 
-Por eso, el backend debe volver a comprobar toda la información antes de procesarla.
-
-La prueba adicional de eliminar `min` y `max` mediante DevTools queda pendiente de registrar como evidencia independiente.
+La prueba adicional de quitar `min` y `max` en DevTools y enviar una edad de 5 años queda pendiente de documentar.
 
 **¿Qué es SQL injection y cómo se puede prevenir?**
 
@@ -210,37 +161,32 @@ Realizamos una comparación visual utilizando el texto:
 <b>Ana</b>
 ```
 
-En la demostración, una salida presentó el nombre en negrita y otra mostró las etiquetas literalmente.
+Observamos que cuando se interpretan las etiquetas HTML, el nombre Ana aparece en negrita.
 
-Esto permite comprender la diferencia entre interpretar HTML y mostrar texto plano.
+En cambio, cuando utilizamos `textContent`, las etiquetas aparecen literalmente como parte del texto.
 
-En el formulario principal utilizamos `textContent` para mostrar el saludo del usuario, evitando interpretar su nombre como código HTML.
+Esto nos permitió comprender que utilizar `innerHTML` con información ingresada por usuarios puede generar vulnerabilidades XSS.
 
-La demostración visual utiliza elementos DOM creados mediante JavaScript; no ejecuta directamente `innerHTML` con entrada libre del usuario.
+Por esta razón, en el formulario principal utilizamos `textContent` para mostrar el saludo sin interpretar etiquetas HTML.
+
+La demostración visual se implementó creando elementos desde JavaScript, sin insertar directamente contenido arbitrario mediante `innerHTML`.
 
 #### Parte C. Prueba de usabilidad
 
-Para evaluar la facilidad de uso, planteamos una actividad en la que un compañero debe completar el formulario con algunos datos incorrectos, incluyendo una edad de 16 años.
+Para esta actividad se plantea que otra persona complete el formulario utilizando datos de prueba, incluyendo una edad inválida de 16 años.
 
-También se debe repetir la actividad utilizando únicamente el teclado.
+También se debe comprobar que pueda completar el registro utilizando únicamente el teclado.
 
-**Registro de ejemplo simulado (no corresponde a participantes reales):**
+**Ejemplos simulados de problemas de usabilidad**
 
-| Observación | Campo | Problema de ejemplo | Corrección propuesta |
+| Observación | Campo | Problema | Corrección propuesta |
 |---|---|---|---|
-| 1 | Contraseña | El participante no sabía que debía incluir letras y números e intentó continuar varias veces | Agregar una indicación visible debajo del campo explicando los requisitos |
-| 2 | Edad | El participante escribió 16 y no entendió inmediatamente por qué no podía registrarse | Agregar una indicación visible de que la edad permitida es de 18 a 120 años |
+| 1 | Contraseña | El participante no sabía que debía escribir una contraseña con letras y números. | Agregar una indicación visible con los requisitos de la contraseña. |
+| 2 | Edad | El participante escribió una edad menor de 18 años y no comprendió inicialmente el límite. | Agregar un texto que indique que la edad debe estar entre 18 y 120 años. |
 
-**Ejemplo de tiempos simulados:**
+Estas observaciones son ejemplos simulados para planificar la actividad y no corresponden a resultados obtenidos con participantes reales.
 
-| Participante ficticio | Primera prueba | Prueba con teclado |
-|---|---|---|
-| Participante A | 2 min 15 s | 2 min 50 s |
-| Participante B | 1 min 48 s | 2 min 20 s |
-
-Estos tiempos son ilustrativos y deben reemplazarse con mediciones reales si se presentan como resultados de la actividad.
-
-**Conclusión de la actividad propuesta:**
+**Conclusión de la actividad propuesta**
 
 Las indicaciones visibles pueden ayudar a que los usuarios comprendan los requisitos antes de cometer errores. También es importante mantener el foco visible y permitir la navegación con teclado para mejorar la accesibilidad.
 
@@ -252,29 +198,30 @@ Se creó el archivo `pruebas/validaciones.test.mjs` para comprobar las reglas pr
 
 Incluye pruebas de nombre, correo, contraseña, confirmación, edad, país, términos y teléfonos.
 
-El código contiene 13 aserciones. En la ejecución documentada anteriormente se comprobó que las pruebas de reglas pasaban; el contador del mensaje original indicaba 12 y se ajustó a 13 para que coincida con las aserciones.
+El archivo contiene 13 aserciones que permiten verificar el comportamiento de las funciones sin necesidad de abrir el navegador.
 
-Para ejecutarlas:
+Para ejecutar las pruebas utilizamos:
 
 ```bash
 node pruebas/validaciones.test.mjs
 ```
 
-También se puede revisar la sintaxis de los archivos JavaScript utilizando `node --check`.
+También podemos revisar la sintaxis de los archivos JavaScript utilizando:
+
+```bash
+node --check app.js
+node --check seguridad.js
+```
+
+Las pruebas automáticas complementan las pruebas manuales, pero no reemplazan las comprobaciones de accesibilidad, usabilidad y funcionamiento del navegador.
 
 ## 6. Evidencias de funcionamiento
 
-Se realizaron comprobaciones manuales de las validaciones, mensajes personalizados, envío de datos, errores de conexión, correo registrado, teléfonos dinámicos y demostraciones de seguridad.
+Se realizaron pruebas manuales de las validaciones, mensajes personalizados, envío de datos, errores de conexión, correo registrado, teléfonos dinámicos y demostraciones de seguridad.
 
-Evidencias recomendadas para adjuntar:
+Las evidencias correspondientes se adjuntan en el documento de Word.
 
-1. Formulario nativo rechazando datos incorrectos.
-2. Mensaje de error cuando las contraseñas no coinciden.
-3. Petición JSON observada en DevTools.
-4. Correo registrado y teléfono incorrecto.
-5. Petición directa con información inválida.
-6. Comparación visual entre texto HTML y texto literal.
-7. Prueba de usabilidad con observaciones y correcciones reales, cuando se realice.
+Las pruebas de usabilidad con participantes y las correcciones derivadas de ellas deben documentarse cuando se realicen.
 
 ## 7. Cómo ejecutar el proyecto
 
